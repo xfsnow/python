@@ -42,21 +42,10 @@ for phrase in phrases:
     arr_py = pinyin(phrase, style=Style.TONE)
     py = array_flatten(arr_py, ' ')
     arr.append(py)
-
-'''
-1   1
-2   4
-3   7
-4   10
-5   13
-3x-2
-够 10 字起新行
-'''
 folder = r'D:/study/Github/python/pinyin_print/'
 excel_template = folder + 'pinyin_square_block.xlsx'
 wb = load_workbook(filename = excel_template)
-ws = wb['pinyin']
-
+ws = wb.active
 r = 1
 c = 1
 for i in range(0, len(phrases)):
@@ -64,7 +53,7 @@ for i in range(0, len(phrases)):
     arr_py = pinyin(phrase, style=Style.TONE)
     py = array_flatten(arr_py, ' ')
     d = ws.cell(row=r, column=c, value=py)
-    # 一个汉字 2 个单元格，所以下一个词组开始的位置是
+    # 每行10个汉字。一个汉字 2 个单元格，所以下一个词组开始的位置是
     c = c + len(arr_py) * 2
     # 如果出现 3 字词，则剩下不够 2 字词了，直接换新行。
     if (c > 18):
