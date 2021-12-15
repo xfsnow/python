@@ -1,7 +1,9 @@
 # 使用 Python SDK 管理云资源
 https://docs.microsoft.com/zh-cn/azure/developer/python/configure-local-development-environment
 
-先安装了 VS Code 的 Azure 插件，貌似只支持海外区域。所以 CLI 也切换到海外区域
+先安装了 VS Code 的 Azure 插件，Azure 插件其实是支持海外和国内区域的。可以在 Settings > Azure configuratoin 找到 Azure: Cloud，这里有菜单可以选择 AzureCloud, AzureChinaCloud 以及其它各个独立的云。
+
+CLI 先用海外区域，方便测试
 az cloud set -n AzureCloud
 
 然后再 az login
