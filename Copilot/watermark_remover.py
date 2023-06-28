@@ -4,11 +4,42 @@
 # and save it as a new mp4 video file， out.mp4
 
 import cv2
+from moviepy.editor import VideoFileClip
 import time
 
 input_file_path='input.mp4'
 input_file_path=  r'C:\Users\xuefe\Videos\Video\009.声音从哪生出来_n4JEtZY1Ros.mp4'
-output_file_path='out.mp4'
+output_file_path='output.mp4'
+
+def overwrite_watermark(frame, top_x, top_y, width, height):
+    # Define the watermark area
+    watermark_area = frame[top_y:top_y+height, top_x:top_x+width]
+
+    # Get the colors of the four corners of the watermark area
+    # top left corner
+    top_left_corner = frame[top_y, top_x]
+    # top right corner
+    top_right_corner = frame[top_y, top_x+width-1]
+    # bottom left corner
+    bottom_left_corner = frame[top_y+height-1, top_x]
+    # bottom right corner
+    bottom_right_corner = frame[top_y+height-1, top_x+width-1]
+
+    # Overwrite the watermark area with colors that around the watermark area
+    # top left quarter of the watermark area
+    frame[top_y:top_y+height//2, top_x:top_x+width//2] = top_left_corner
+    # top right quarter of the watermark area
+    frame[top_y:top_y+height//2, top_x+width//2:top_x+width] = top_right_corner
+    # bottom left quarter of the watermark area
+    frame[top_y+height//2:top_y+height, top_x:top_x+width//2] = bottom_left_corner
+    # bottom right quarter of the watermark area
+    frame[top_y+height//2:top_y+height, top_x+width//2:top_x+width] = bottom_right_corner
+
+    return frame
+
+
+# original audio sound should be reserved to output file directly.
+
 # read the input video file
 cap = cv2.VideoCapture(input_file_path)
 # get the video fps, width, height
@@ -25,33 +56,8 @@ while True:
     # read the next frame
     ret, frame = cap.read()
     if ret:
-        # get the watermark area
-        watermark_area = frame[634:634+56, 52:52+176]
-        # 把水印区域用黑色框线标出
-        # cv2.rectangle(frame, (52, 634), (52+176, 634+56), (0, 0, 0), 2)
-     
-        # paint the watermark area with colors that around the watermark area
-
-        # get the colors of the four corners of the watermark area
-        # top left corner
-        top_left_corner = frame[634, 52]
-        # top right corner
-        top_right_corner = frame[634, 52+176-1]
-        # bottom left corner
-        bottom_left_corner = frame[634+56-1, 52]
-        # bottom right corner
-        bottom_right_corner = frame[634+56-1, 52+176-1]
-
-        # TODO: 用四个角的颜色向中心点的颜色渐变填充，效果也许会更好
-        # 水印区域左上四分之一使用左上角的颜色填充
-        frame[634:634+28, 52:52+88] = top_left_corner
-        # 水印区域右上四分之一使用右上角的颜色填充
-        frame[634:634+28, 52+88:52+176] = top_right_corner
-        # 水印区域左下四分之一使用左下角的颜色填充
-        frame[634+28:634+56, 52:52+88] = bottom_left_corner
-        # 水印区域右下四分之一使用右下角的颜色填充
-        frame[634+28:634+56, 52+88:52+176] = bottom_right_corner
-
+        frame = overwrite_watermark(frame, 52, 634, 176, 56)
+        frame = overwrite_watermark(frame, 1150, 4, 126, 45)
         # write the frame to the output video file
         out.write(frame)
     else:
@@ -74,3 +80,12 @@ out.release()
 # close all windows
 cv2.destroyAllWindows()
 
+# Load the video file
+input_video = VideoFileClip(input_file_path)
+# 提取音频
+audio = input_video.audio
+
+output_video = VideoFileClip(output_file_path)
+output_video = output_video.set_audio(input_video.audio)
+
+output_video.write_videofile('out.mp4')
