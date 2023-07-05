@@ -12,7 +12,6 @@ def main():
     try: 
     
         # Get configuration settings 
-        load_dotenv()
         azure_oai_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
         azure_oai_key = os.getenv("AZURE_OPENAI_API_KEY")
         azure_oai_model = "gpt35"
