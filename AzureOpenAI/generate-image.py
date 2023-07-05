@@ -51,5 +51,5 @@ def main():
 
 if __name__ == '__main__': 
     main()
-
+# 如果长时间没有反应，可以能是触发了Azure OpenAI敏感信息的限制，可以在Azure Portal中再测试验证。
 
