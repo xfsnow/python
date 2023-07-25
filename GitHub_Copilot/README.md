@@ -5,7 +5,9 @@
 pip install mitmproxy
 2. 上传 proxy_confyg.py 文件到云虚机
 3. 启动 mitmproxy
-`nohup mitmdump --set block_global=false -s proxy_config.py &`
+```
+nohup mitmdump --set block_global=false -s proxy_config.py &
+```
 由于 mitmproxy 默认运行在 8080 端口，如果是运行在云虚机上，需要开启 8080 端口的网络安全组。
 
 4. 在 IDE 中配置代理服务器
