@@ -10,22 +10,8 @@
 
 import math
 
-def maxDistance(points):
-    max = 0
-    for i in range(len(points)):
-        for j in range(i+1, len(points)):
-            distance = math.sqrt((points[i][0]-points[j][0])**2+(points[i][1]-points[j][1])**2)
-            if distance > max:
-                max = distance
-    return max
+# def maxDistance(points):
 
-if __name__ == '__main__':
-    points = [[1,1],[3,3],[4,4],[5,5]]
-    print(maxDistance(points))
-    # 更多测试
-    points = [[1,1],[3,3],[4,4],[5,5],[0,0]]
-    print(maxDistance(points))
-    points = [[1,1],[3,3],[4,4],[5,5],[0,0],[2,2]]
-    print(maxDistance(points))
-    points = [[1,1],[3,3],[4,4],[5,5],[0,0],[2,2],[6,6]]
-    print(maxDistance(points))
+
+
+# if __name__ == '__main__':

@@ -4,10 +4,7 @@
 # 输入: 字符串s
 # 返回值: 最长回文子字符串
 def manacher(s):
+    
 
-       
 # 单元测试
 # def manacher_test():
-
-
-
