@@ -15,3 +15,11 @@ nohup mitmdump --set block_global=false -s proxy_config.py &
 Http Proxy: 填写 mitmproxy 对外的IP，形如 http://12.34.56.78:8080
 
 Http Proxy Strict SSL 不勾选
+
+
+## 指定证书
+按照 https://docs.mitmproxy.org/stable/concepts-certificates/#quick-setup 
+安装 mitmproxy certificate authority。然后在 VS Code的设置中启用 Proxy Strict SSL 不灵。Copilot 报错
+```
+Your current Copilot license doesn't support proxy connections with self-signed certificates. Please visit https://aka.ms/copilot-ssc to learn more. Original cause: {"type":"system","code":"UNABLE_TO_VERIFY_LEAF_SIGNATURE"}
+```
