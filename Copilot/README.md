@@ -60,7 +60,7 @@ GitHub Copilot could not connect to server. Extension activation failed: "tunnel
 ```
 
 ### 使用真正CA签名的证书
-先到 https://freessl.cn/ 首页登录，然后在域名中输入 mitm.snowpeak.org。
+先到 https://freessl.cn/ 首页登录，然后在域名中输入 mitm.contoso.com。
 
 按网站提示验证域名归属。
 
@@ -68,20 +68,20 @@ GitHub Copilot could not connect to server. Extension activation failed: "tunnel
 ```bash
 # 下载安装 acme.sh
 curl https://get.acme.sh | sh -s email=my@example.com
-acme.sh --issue -d mitm.snowpeak.org  --dns dns_dp --server https://acme.freessl.cn/v2/DV90/directory/c1uqpy1mo6y5tg15u5q3
+acme.sh --issue -d mitm.contoso.com  --dns dns_dp --server https://acme.freessl.cn/v2/DV90/directory/0123456789abcdefghijk
 ```
 
-执行过程需要等待一会，证书生成到 `~/.acme.sh/mitm.snowpeak.org_ecc` 目录下。
+执行过程需要等待一会，证书生成到 `~/.acme.sh/mitm.contoso.com_ecc` 目录下。
 ```bash
 # 合并证书文件
-cat mitm.snowpeak.org.key fullchain.cer > mitm.snowpeak.org.pem
+cat mitm.contoso.com.key fullchain.cer > mitm.contoso.com.pem
 ```
 再转到 mitmproxy 的目录下
 ```bash
-nohup mitmdump --certs *=mitm.snowpeak.org.pem --set block_global=false -s proxy_config.py &
+nohup mitmdump --certs *=mitm.contoso.com.pem --set block_global=false -s proxy_config.py &
 ```
 
 再测试勾选 Http Proxy Strict SSL 配置项，GitHub Copilot 还报错：
 ```
-GitHub Copilot could not connect to server. Extension activation failed: "Hostname/IP does not match certificate's altnames: Host: api.github.com. is not in the cert's altnames: DNS:mitm.snowpeak.org"
+GitHub Copilot could not connect to server. Extension activation failed: "Hostname/IP does not match certificate's altnames: Host: api.github.com. is not in the cert's altnames: DNS:mitm.contoso.com"
 ```
