@@ -3,8 +3,7 @@ import time
 import os
 from dotenv import load_dotenv
 
-def main(): 
-        
+def dallImage(): 
     try:
         # Get Azure OpenAI Service settings
         api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -50,6 +49,5 @@ def main():
         print(ex)
 
 if __name__ == '__main__': 
-    main()
+    dallImage()
 # 如果长时间没有反应，可以能是触发了Azure OpenAI敏感信息的限制，可以在Azure Portal中再测试验证。
-

@@ -1,5 +1,4 @@
 from mitmproxy import http
-from mitmproxy.http import Headers
 import time
 
 def request(flow: http.HTTPFlow) -> None:

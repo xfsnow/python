@@ -85,3 +85,12 @@ nohup mitmdump --certs *=mitm.contoso.com.pem --set block_global=false -s proxy_
 ```
 GitHub Copilot could not connect to server. Extension activation failed: "Hostname/IP does not match certificate's altnames: Host: api.github.com. is not in the cert's altnames: DNS:mitm.contoso.com"
 ```
+
+### 使用自定义 CA
+
+安装到 Windows 信任的机构，但是 Copilot 插件还是报错
+```
+The proxy connection couldn't be established due to an untrusted self-signed certificate, or your Copilot license might not support their use. Please visit https://aka.ms/copilot-ssc to learn more. Original cause: {"type":"system","code":"UNABLE_TO_VERIFY_LEAF_SIGNATURE"}
+GitHub Copilot could not connect to server. Extension activation failed: "tunneling socket could not be established, cause=unable to verify the first certificate"
+Proxy socket connection error,unable to verify the first certificate
+```
