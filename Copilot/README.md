@@ -87,10 +87,20 @@ GitHub Copilot could not connect to server. Extension activation failed: "Hostna
 ```
 
 ### 使用自定义 CA
-
-安装到 Windows 信任的机构，但是 Copilot 插件还是报错
+这里简化起见，直接使用 mitmproxy 自签名的CA，把这个CA安装到 Windows 信任的机构，但是 Copilot 插件还是报错。
 ```
 The proxy connection couldn't be established due to an untrusted self-signed certificate, or your Copilot license might not support their use. Please visit https://aka.ms/copilot-ssc to learn more. Original cause: {"type":"system","code":"UNABLE_TO_VERIFY_LEAF_SIGNATURE"}
 GitHub Copilot could not connect to server. Extension activation failed: "tunneling socket could not be established, cause=unable to verify the first certificate"
 Proxy socket connection error,unable to verify the first certificate
 ```
+### 在 VS Code 中安装 win-ca 插件
+默认情况下 VS Code 不信任 Windows 操作系统的CA，需要安装 win-ca 插件。
+
+https://marketplace.visualstudio.com/items?itemName=ukoloff.win-ca
+
+Mac 系统安装 mac-ca 插件。
+
+https://marketplace.visualstudio.com/items?itemName=ukoloff.mac-ca
+
+安装好插件后，在 win-ca 的配置中 Inject 选择 append。
+再回来 proxy 配置，选中 Http Proxy Strict SSL 选项，GitHub Copilot 可以正常使用了。
