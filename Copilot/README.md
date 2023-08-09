@@ -103,4 +103,6 @@ Mac 系统安装 mac-ca 插件。
 https://marketplace.visualstudio.com/items?itemName=ukoloff.mac-ca
 
 安装好插件后，在 win-ca 的配置中 Inject 选择 append。
-再回来 proxy 配置，选中 Http Proxy Strict SSL 选项，GitHub Copilot 可以正常使用了。
+再回来 proxy 配置，在 Proxy 项中填写 mitmproxy 的域名或IP，注意要用 **http://**，而不是 **https://**。
+
+选中 Http Proxy Strict SSL 选项，GitHub Copilot 可以正常使用了。

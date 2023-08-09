@@ -65,6 +65,16 @@ def enable_copilot(token, username):
     else:
         print("User GitHub Copilot enabled failed!")
         print(response.text.encode('utf8'))
+# 使用 Bearer 请求头，Bearer tid=76f2 调用 GitHub API 获取用户信息
+def get_user(headers):
+    url = "https://api.github.com/user"
+    response = requests.request("GET", url, headers=headers)
+    if response.status_code == 200:
+        print("User GitHub Copilot enabled successfully!")
+    else:
+        print("User GitHub Copilot enabled failed!")
+        print(response.text.encode('utf8'))
+    return response.json()
 
 # Main function
 def main():
@@ -84,5 +94,9 @@ def main():
     enable_copilot(token, username)
 
 if __name__ == "__main__":
-    main()
-
+    # main()
+    headers ={
+        'authorization': 'Bearer tid=76f2aa',
+    }
+    user = get_user(headers)
+    print(user)
