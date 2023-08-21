@@ -1,5 +1,6 @@
 # 使用 selenium 配合 chromedriver 作为无窗口浏览器，抓取网页
 # 访问 https://azure.microsoft.com/zh-cn/products/
+# 指定浏览器窗口大小为 1280*1024
 # 文件名指定为当前年月日时分秒.png
 # 关闭浏览器
 # 保存文件

@@ -5,9 +5,8 @@
 # 返回值: 最长回文子字符串
 # 如输入  1234368, 返回 343
 # 如输入  dfiwgeagea, 返回 eagea
-def manacher(s):
-    
-
+# def manacher(s):
 
 # 单元测试
 # def manacher_test():
+    
