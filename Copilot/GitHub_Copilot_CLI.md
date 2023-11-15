@@ -40,12 +40,15 @@ gh auth login
 按提示，选择 GitHub.com、HTTPS 模式、使用GitHub用户名和密码登录，以及使用浏览器打开授权页面。
 如果是远程访问的 Linux，可能不能打开本地的浏览器，可以手工打开浏览器，访问 https://github.com/login/device。
 ![Copilot CLI 登录](img/copilot-cli-login.png)
+
 按上述提示输入 code，点击 Continue 按钮。
 
 然后跳转到授权页面，点击有权限的用户所属的组织右边的 Authorize 按钮。
+
 ![Copilot CLI 授权](img/copilot-cli-auth.png)
 
 然后会跳转到企业员工统一登录，登录成功后再回到授权页，点击 Authorize github 按钮。
+
 ![Copilot CLI 授权](img/copilot-cli-auth1.png)
 
 登录成功后，命令行返回
@@ -184,4 +187,8 @@ sudo npm install -g npm@10.2.3
 ```sh
 eval "$(github-copilot-cli alias -- "$0")"
 ```
+使用效果小动画
+
+![Copilot CLI 授权](img/copilot_short_command.svg)
+
 然后就可以使用 `??`、 `git?` 和 `gh?` 这 3 个快捷命令了。当然这 3 个命令都只用于输入自然语言建议出命令，不支持解释命令功能。
