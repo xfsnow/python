@@ -34,6 +34,8 @@ https://github.com/cli/cli/releases/tag/v2.39.1
 
 注意先打开浏览器，访问 [https://github.com](https://github.com)，用获得了Copilot for CLI 的权限的用户先登录好。
 
+然后执行以下命令：
+
 ```sh
 gh auth login
 ```
