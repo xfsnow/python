@@ -1,15 +1,15 @@
 # GitHub Copilot CLI实践
-最近获得了 GitHub Copilot CLI 的测试机会，这里记录一下使用过程中的具体操作过程。
+最近获得了 GitHub Copilot CLI 的测试机会，这里记录一下安装配置的具体操作过程。
 
 ## 申请获得测试资格
 个人用户可以在线申请。
-https://githubnext.com/projects/copilot-cli/
+[https://githubnext.com/projects/copilot-cli/](https://githubnext.com/projects/copilot-cli/)
 
 ## 安装配置
 ### Linux 操作系统下安装
 
 1. 先安装 GitHub CLI
-参考 https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+参考 [https://github.com/cli/cli/blob/trunk/docs/install_linux.md](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
     
 ```sh
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
@@ -32,13 +32,13 @@ https://github.com/cli/cli/releases/tag/v2.39.1
 
 2. 在 GitHub CLI 中登录
 
-注意先打开浏览器，访问 https://github.com，用获得了Copilot for CLI 的权限的用户先登录好
+注意先打开浏览器，访问 [https://github.com](https://github.com)，用获得了Copilot for CLI 的权限的用户先登录好。
 
 ```sh
 gh auth login
 ```
 按提示，选择 GitHub.com、HTTPS 模式、使用GitHub用户名和密码登录，以及使用浏览器打开授权页面。
-如果是远程访问的 Linux，可能不能打开本地的浏览器，可以手工打开浏览器，访问 https://github.com/login/device。
+如果是远程访问的 Linux，可能不能打开本地的浏览器，可以手工打开浏览器，访问 https://github.com/login/device 。
 ![Copilot CLI 登录](img/copilot-cli-login.png)
 
 按上述提示输入 code，点击 Continue 按钮。
@@ -161,6 +161,7 @@ $ npm -v
 表示 nodejs 20.9.0 安装成功。
 
 5. 安装 Copilot CLI
+
 参考 https://www.npmjs.com/package/@githubnext/github-copilot-cli
 
 ```sh
@@ -182,6 +183,7 @@ sudo npm install -g npm@10.2.3
 ```
 
 6. 注册快捷命令
+
 把下面这行命令加入到 ~/.bashrc 或者 ~/.zshrc 中，这样就可以直接使用快捷命令了。
 
 ```sh
