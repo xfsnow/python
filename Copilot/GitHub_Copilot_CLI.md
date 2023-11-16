@@ -85,7 +85,7 @@ I'm powered by AI, so surprises and mistakes are possible. Make sure to verify a
   gh command
   git command
 ```
-我想要的就是通用的 shell 命令，所以选择第一个直接回国。然后 Copilot 就会给出建议的命令，比如：
+我想要的就是通用的 shell 命令，所以保持选择第一个直接回车。然后 Copilot 就会给出建议的命令，比如：
 ```sh
 Suggestion:
 
@@ -120,9 +120,10 @@ Explanation:
 ```
 
 ## 安装快捷命令
+
 上述直接使用 gh copilot 命令还是有点麻烦，可以安装快捷命令，这样就可以少打不少字也减少很多交互。
 
-### 依赖Node.js 16.0.0或更新版本
+### 依赖 Node.js 16.0.0 或更新版本
 
 参考 https://github.com/nodesource/distributions#ubuntu-versions
 
