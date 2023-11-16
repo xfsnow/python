@@ -1,9 +1,17 @@
 # GitHub Copilot CLI实践
 最近获得了 GitHub Copilot CLI 的测试机会，这里记录一下安装配置的具体操作过程。
 
-## 申请获得测试资格
-个人用户可以在线申请。
-[https://githubnext.com/projects/copilot-cli/](https://githubnext.com/projects/copilot-cli/)
+## 启用 Copilot CLI
+
+Copilot CLI 现在是 beta 公开预览了。GitHub Copilot 个人用户可以直接使用。
+
+GitHub Copilot 商业版用户也可使用，可以由组织管理自行配置是否启用。
+
+在组织的设置中，找到左侧导航链接，点击展开 Copilot 再点 Policies and features。
+
+在主窗格中的 GitHub Copilot in the CLI 点击右边菜单选择为 Enabled 即可。
+
+![为组织启用Copilot CLI](img/copilot-cli-enable.png)
 
 ## 安装配置
 ### Linux 操作系统下安装
