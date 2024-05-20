@@ -20,12 +20,12 @@ str = '''看见	哪里	那边	头顶	眼睛
 phrases = str.split()
 print(phrases)
 
-
-excel_template = 'pinyin_print/pinyin_square_block.xlsx'
+folder = './Excel/'
+excel_template = folder + 'pinyin_square_block.xlsx'
 wb = load_workbook(filename = excel_template)
 ws = wb['pinyin']
 pageTitle = '语文二年级上册119页汉字'
 ws.title = pageTitle
 d = ws.cell(row=1, column=3, value=pageTitle)
 # print(ws['A1'].value)
-wb.save('pinyin_print/pinyin119.xlsx')
+wb.save(folder + 'pinyin119.xlsx')

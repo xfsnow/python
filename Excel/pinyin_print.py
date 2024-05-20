@@ -42,7 +42,7 @@ for phrase in phrases:
     arr_py = pinyin(phrase, style=Style.TONE)
     py = array_flatten(arr_py, ' ')
     arr.append(py)
-folder = r'D:/study/Github/python/pinyin_print/'
+folder = './Excel/'
 excel_template = folder + 'pinyin_square_block.xlsx'
 wb = load_workbook(filename = excel_template)
 ws = wb.active
