@@ -3,6 +3,8 @@ from pdfrw import PdfReader, PdfWriter
 input_pdf = './PDF/Chinese.pdf'
 output_pdf = './PDF/Chinese_no_watermark.pdf'
 reader = PdfReader(input_pdf)
+# 输入文件不能普通读取，原因是有密码保护
+# TODO: 读取PDF文件的密码，或者换个没有密码的PDF文件
 writer = PdfWriter()
 
 for page in reader.pages:
