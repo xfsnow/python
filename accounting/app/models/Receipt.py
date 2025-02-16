@@ -3,6 +3,8 @@ import os
 import base64
 import json
 import openai
+from PIL import Image
+from io import BytesIO
 
 # 在环境变量或配置中设置以下参数：
 #   AZURE_API_KEY        Azure OpenAI 的API密钥
@@ -17,11 +19,25 @@ openai.api_version = os.getenv("AZURE_API_VERSION", "2024-08-01-preview")
 openai.model = os.getenv("AZURE_MODEL_NAME", "gpt-4o")
 
 class Receipt:
-    """
-    用于连接 Azure OpenAI GPT-4o 模型并解析收支截图。
-    """
+
     # def __init__(self, model=None):
     #     self.model = model or MODEL_NAME
+
+    # 重置图片大小
+    # 手机截图尺寸比较大，缩小成宽最大600像素
+    # param image_bytes: 图片的字节流
+    # param max_width: 图片的最大宽度，默认值为200
+    # return: 处理后的图片的字节流
+    def resize(self, image_bytes: bytes, max_width: int = 300) -> bytes:
+        image = Image.open(BytesIO(image_bytes))
+        if image.width <= max_width:
+            return image_bytes
+
+        new_height = int(max_width * image.height / image.width)
+        resized_image = image.resize((max_width, new_height))
+        with BytesIO() as output:
+            resized_image.save(output, format="JPEG")
+            return output.getvalue()
 
     # 注意传图片体积太大时API会报错 {'error': {'code': '429', 'message': 'Rate limit is exceeded. Try again in 86400 seconds.'}}
     # 虽说文档说文体体积最大512MB，实际200多KB的图片都会报错。换成小点的图片。
@@ -33,12 +49,12 @@ class Receipt:
 
         # prompt = "这是交易截图的base64编码，请识别消费/收入信息，并返回 JSON 格式:" + b64_image + """
         prompt = """
-这是交易截图的base64编码，请识别消费/收入信息，并返回 JSON 格式:
+这是交易截图的base64编码，请识别消费/收入信息，识别出的文字内容应严格遵循图片上原有内容，不要转换来翻译成其它语言。请返回仅 JSON 格式的数据，不要输出任何其他内容。
 提取字段:
 交易时间：如2025-02-15 12:30:00，使用时间格式表示
 收入金额：如99.99，使用数字表示，如果没有收入则为空
 支出金额：如99.99，使用数字表示，如果没有支出则为空
-消费的应用：如拼多多、线下商店、公交473路等
+消费的应用：提取项目“交易场所”，如沃尔玛、拼多多、线下商店、公交473路等
 支付平台：如微信、支付宝、美团支付等
 金融终端：如某银行银行卡、信用卡、微信零钱，支付宝花呗等
 说明：如小票备注、商品名称、交易号等
@@ -49,18 +65,18 @@ class Receipt:
   "transaction_time": "2025-02-15 12:30:00",
   "income_amount": "",
   "expense_amount": "99.99",
-  "consumption_app": "Pinduoduo",
-  "payment_platform": "WeChat",
-  "financial_terminal": "Credit Card",
-  "notes": "Order ID: 987654321",
-  "category": "dining"
+  "transaction_app": "拼多多",
+  "payment_platform": "微信",
+  "financial_terminal": "信用卡",
+  "memo": "订单号：987654321",
+  "category": "餐饮"
 }
 如果无法识别，返回空。
 """
         jsonMessages = [
                 {
                     "role": "system",
-                    "content": "你是一个善于结构化信息提取的助手。"
+                    "content": "你是一个善于提取结构化信息的助手。"
                 },
                 {
                     "role": "user",
@@ -75,16 +91,16 @@ class Receipt:
             ]
         completion = openai.chat.completions.create(model=openai.model, messages=jsonMessages)
         jsonResponse = completion.to_json()
-        # 返回的 content 写出成文件，方便查看内容，以及提取出有用的信息
-        # with open("response.json", "w", encoding="utf-8") as f:
-        #     f.write(jsonResponse)
-
-        # 先把字符串 jsonResponse 转换成Python字典
         parsed_response = json.loads(jsonResponse)
-
         #  message.content。如果存在 ["choices"][0]["message"]["content"] 则继续，否则返回失败提示信息
         if "choices" not in parsed_response or len(parsed_response["choices"]) == 0:
             return {"error": "No response from GPT-4o."}
 
-        jsonContent = parsed_response["choices"][0]["message"]["content"]
+        strContent = parsed_response["choices"][0]["message"]["content"]
+        # strContent 转换成 Dict。json.loads() 会报错，因为字符串中的未转义的中文，需要用 eval() 来处理。
+        print(strContent)
+        jsonContent = eval(strContent)
+        # 读取到的图片文件内容输出成可以显示在 HTML 中的图片格式
+        jsonContent['preview_image'] = 'data:image/jpeg;base64,' + b64_image
+        print(type(jsonContent))  # Verify the type of jsonContent
         return jsonContent

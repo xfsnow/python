@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>确认消费信息</title>
-    <style>
-        .edit-form { max-width: 600px; margin: 20px auto; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input, textarea { width: 100%; padding: 8px; }
-        .preview-img { max-width: 600px; margin-bottom: 20px; }
-    </style>
+    <title>确认交易信息</title>
+    <link rel="stylesheet" href="/static/css.css">
 </head>
 <body>
     <div class="edit-form">
-        <h2>请核对消费信息</h2>
-        <img class="preview-img" src="{{ url_for('static', filename='uploads/'+data.img_url) }}">
+
+        <h2>检查交易信息</h2>
+        <img class="preview-img" src="{{ data.preview_image }}" alt="截图预览">
 
         <form action="/save" method="post">
             <div class="form-group">
-                <label>支付平台：</label>
-                <input type="text" name="platform" value="{{ data.platform }}">
+                <label>交易时间:</label>
+                <input type="datetime-local" name="transaction_time" value="{{ data.transaction_time }}">
             </div>
 
             <div class="form-group">
-                <label>金额（元）：</label>
-                <input type="number" step="0.01" name="amount" value="{{ data.amount }}">
+                <label>收入金额 (¥):</label>
+                <input type="number" step="0.01" name="income_amount" value="{{ data.income_amount }}">
             </div>
 
             <div class="form-group">
-                <label>交易时间：</label>
-                <input type="datetime-local" name="time"
-                       value="{{ data.time }}">
+                <label>支出金额 (¥):</label>
+                <input type="number" step="0.01" name="expense_amount" value="{{ data.expense_amount }}">
             </div>
 
             <div class="form-group">
-                <label>消费地点：</label>
-                <input type="text" name="location" value="{{ data.location }}">
+                <label>消费应用:</label>
+                <input type="text" name="transaction_app" value="{{ data.transaction_app }}">
             </div>
 
             <div class="form-group">
-                <label>备注：</label>
-                <textarea name="note" rows="3">{{ data.note }}</textarea>
+                <label>支付平台:</label>
+                <input type="text" name="payment_platform" value="{{ data.payment_platform }}">
             </div>
 
-            <button type="submit">保存记录</button>
+            <div class="form-group">
+                <label>金融终端:</label>
+                <input type="text" name="financial_terminal" value="{{ data.financial_terminal }}">
+            </div>
+
+            <div class="form-group">
+                <label>备注:</label>
+                <textarea name="memo" rows="3">{{ data.memo }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>类别:</label>
+                <input type="text" name="category" value="{{ data.category }}">
+            </div>
+
+            <button type="submit">保存交易</button>
         </form>
     </div>
 </body>

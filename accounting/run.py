@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, current_app, render_template, request, redirect, url_for
-import os
 from datetime import datetime
+import json
+import os
 from app.models.Receipt import Receipt
 
 bp = Blueprint('main', __name__, template_folder='templates')
@@ -11,39 +12,39 @@ def index():
         # 处理图片上传
         file = request.files['receipt']
         if file:
-            ext = os.path.splitext(file.filename)[1]
-            filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}{ext}"
-            # 使用 current_app.config 而不是 bp.config
-            strUploadFolder = current_app.config['UPLOAD_FOLDER']
-            filepath = os.path.join(strUploadFolder, filename)
-            file.save(filepath)
-
-            # GPT-4o识别文字
-            with open(filepath, 'rb') as f:
-                image = f.read()
-
-
-
-            # 解析关键信息（示例解析逻辑）
-            parsed_data = {
-                'img_url': filename,
-                'platform': '微信支付',
-                'amount': '',
-                'time': 'time',
-                'location': 'location',
-                'note': '备注'
-            }
-            return render_template('edit.html',
-                                 data=parsed_data)
+            # 不保存上传的文件，而是直接获取文件内容 image_bytes
+            image_bytes = file.read()
+            receipt = Receipt()
+            img = receipt.resize(image_bytes)
+            parsed_data = receipt.recognize(img)
+            # print(parsed_data)
+            return render_template('edit.html', data=parsed_data)
     else:
         # 调试用，直接解析图片
-        # filePath = os.path.join(current_app.config['UPLOAD_FOLDER'], '20250215170459.jpg')
+        # filePath = os.path.join(current_app.config['UPLOAD_FOLDER'], 'receipt.jpg')
         # print(filePath)
         # with open(filePath, 'rb') as f:
         #     image = f.read()
         #     receipt = Receipt()
-        #     parsed_data = receipt.recognize(image)
-            # print(parsed_data)
+        #     img = receipt.resize(image)
+        #     # 写出调试图片
+        #     with open('static/uploads/resized.jpg', 'wb') as f:
+        #         f.write(img)
+        #     parsed_data = receipt.recognize(img)
+#             data="""{
+#   "transaction_time": "2025-02-14 09:17:58",
+#   "income_amount": "",
+#   "expense_amount": "10.28",
+#   "transaction_app": "美团App",
+#   "payment_platform": "",
+#   "financial_terminal": "浦发银行信用卡 (0673)",
+#   "memo": "骑行套餐",
+#   "category": "交通"
+# }"""
+#             # parsed_data = eval(data)
+#             parsed_data = json.loads(data)
+#             print(type(parsed_data))
+            # return render_template('edit.html', data=parsed_data)
         return render_template('upload.html')
 
 @bp.route('/save', methods=['POST'])
