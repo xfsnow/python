@@ -258,3 +258,14 @@ python app.py
 2. 数据展示：添加消费统计图表功能
 3. 用户系统：增加多用户支持
 4. 移动优化：使用响应式框架如Bootstrap
+
+## 部署到 Azure App Service
+1. 创建Azure Web App
+已经通过控制台创建了一个Azure Web App，名为`ailo`。
+使用命令行把代码部署上去
+```bash
+az webapp up --name ailo --resource-group multi-region --runtime PYTHON:3.12
+```
+2. 配置Python环境
+3. 部署代码
+4. 访问Web App URL
