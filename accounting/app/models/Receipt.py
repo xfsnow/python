@@ -1,10 +1,14 @@
 # filepath: /c:/Study/GitHub/python/accounting/app/models/ai.py
-import os
+from io import BytesIO
+from PIL import Image
+
 import base64
 import json
 import openai
-from PIL import Image
-from io import BytesIO
+import os
+import pandas as pd
+
+from app.models.SqlHelper import SqlHelper
 
 # 在环境变量或配置中设置以下参数：
 #   AZURE_API_KEY        Azure OpenAI 的API密钥
@@ -58,13 +62,13 @@ class Receipt:
 支付平台：如微信、支付宝、美团支付等
 金融终端：如某银行银行卡、信用卡、微信零钱，支付宝花呗等
 说明：如小票备注、商品名称、交易号等
-类别：如餐饮、交通、购物、医疗等
+类别：如餐饮、交通、购物、医疗等。水、电、燃气分类到生活缴费。
 
 返回示例格式:
 {
   "transaction_time": "2025-02-15 12:30:00",
   "income_amount": "",
-  "expense_amount": "99.99",
+  "expense_amount": 99.99,
   "transaction_app": "拼多多",
   "payment_platform": "微信",
   "financial_terminal": "信用卡",
@@ -97,10 +101,30 @@ class Receipt:
             return {"error": "No response from GPT-4o."}
 
         strContent = parsed_response["choices"][0]["message"]["content"]
+        # 即使在提示语中加上“仅返回JSON”，还是有可能返回形如  ```json {  "transaction_time": "2025-02-17 08:30:11",}``` 带markdown的字符串，需要去掉。
+        strContent = strContent.replace("```json", "").replace("```", "")
         # strContent 转换成 Dict。json.loads() 会报错，因为字符串中的未转义的中文，需要用 eval() 来处理。
         print(strContent)
         jsonContent = eval(strContent)
         # 读取到的图片文件内容输出成可以显示在 HTML 中的图片格式
         jsonContent['preview_image'] = 'data:image/jpeg;base64,' + b64_image
-        print(type(jsonContent))  # Verify the type of jsonContent
         return jsonContent
+
+    # 保存识别结果
+    def save(self, receipt: dict) -> bool:
+        # 保存到数据库
+        engine = SqlHelper.createDbEngine()
+        conn = engine.connect()
+        mysqlTable = 'accounting'
+        try:
+            df = pd.DataFrame([receipt])
+            # 如果记录存在则跳过
+            df.to_sql(mysqlTable, conn, if_exists='append', index=False)
+            res = True
+        except Exception as e:
+            print(e)
+            res = False
+        finally:
+            conn.close()
+
+        return res

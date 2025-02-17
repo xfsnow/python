@@ -26,6 +26,21 @@
 
 ## 实现步骤
 
+### 服务端搭建
+```mysql
+CREATE TABLE IF NOT EXISTS `accounting` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `transaction_time` DATETIME NOT NULL,
+  `income_amount` DECIMAL(10,2),
+  `expense_amount` DECIMAL(10,2),
+  `transaction_app` VARCHAR(50),
+  `payment_platform` VARCHAR(50),
+  `financial_terminal` VARCHAR(50),
+  `memo` TEXT,
+  `category` VARCHAR(50)
+);
+```
+
 1. 服务端搭建（app.py）
 ```python
 from flask import Flask, render_template, request, redirect, url_for
