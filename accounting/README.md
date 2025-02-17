@@ -261,10 +261,14 @@ python app.py
 
 ## 部署到 Azure App Service
 1. 创建Azure Web App
-已经通过控制台创建了一个Azure Web App，名为`ailo`。
+已经通过控制台创建了一个Azure Web App，名为`<your-app-name>`。
 使用命令行把代码部署上去
 ```bash
-az webapp up --name ailo --resource-group multi-region --runtime PYTHON:3.12
+az webapp config appsettings set -g <your-region> -n <your-app-name> --settings SCM_DO_BUILD_DURING_DEPLOYMENT="true"
+zip -r deploy.zip .
+az webapp deploy -g <your-region> -n <your-app-name> --src-path deploy.zip --type zip
+
+az webapp log config -g <your-region> -n <your-app-name> --detailed-error-messages true
 ```
 2. 配置Python环境
 3. 部署代码

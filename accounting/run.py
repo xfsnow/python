@@ -1,18 +1,17 @@
 from flask import Flask, Blueprint, current_app, render_template, request, redirect, url_for
 from datetime import datetime
-import json
-import os
 from app.models.Receipt import Receipt
 
-bp = Blueprint('main', __name__, template_folder='templates')
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
-@bp.route('/favicon.ico')
+@app.route('/favicon.ico')
 def favicon():
     # 如果没准备图标，可直接返回空，避免触发主逻辑
     return '', 204
 
 
-@bp.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         # 处理图片上传
@@ -55,7 +54,7 @@ def index():
         # print(res)
         return render_template('upload.html')
 
-@bp.route('/save', methods=['POST'])
+@app.route('/save', methods=['POST'])
 def save_record():
     record = {
     'transaction_time': datetime.strptime(request.form.get('transaction_time'), '%Y-%m-%dT%H:%M:%S') if request.form.get('transaction_time') else None,
@@ -79,9 +78,5 @@ def save_record():
     return render_template('hint.html', hint=dictHint)
 
 if __name__ == '__main__':
-    # 如果要直接运行，可以用Flask方式
-    app = Flask(__name__)
-    app.config['UPLOAD_FOLDER'] = 'static/uploads'
-    app.register_blueprint(bp)
     # debug 模式下经常出现页面刷新一次程序执行2 次的情况，这是因为 Flask 会自动监测代码变化，然后重启服务。加上 use_reloader=False 可以避免这种情况。
     app.run(host='0.0.0.0', port=5000, debug=True)
