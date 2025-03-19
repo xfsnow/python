@@ -1,0 +1,51 @@
+<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
+PolicySchemaVersion="0.3.0.0"
+TenantId="spkorg.onmicrosoft.com"
+PolicyId="MFA_Email_Extension"
+PublicPolicyUri="http://spkorg.onmicrosoft.com/MFA_Email_Extension"
+TenantObjectId="7a41c675-c64d-4283-8203-c81dfeba3e88">
+  <BasePolicy>
+    <TenantId>spkorg.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_MFA_EMAIL_BASE</PolicyId>
+  </BasePolicy>
+  <RelyingParty>
+    <DefaultUserJourney ReferenceId="SignUpOrSignInWithPhone" />
+    <TechnicalProfile Id="SelfAsserted-EmailVerification">
+          <DisplayName>Email Verification</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.SelfAssertedAttributeProvider" />
+          <Metadata>
+            <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+            <Item Key="language.intro">Please verify your email address</Item>
+            <Item Key="VerificationCodeExpiryInSeconds">3600</Item> <!-- 1 hour -->
+          </Metadata>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="email" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="email" Required="true" />
+            <OutputClaim ClaimTypeReferenceId="verificationCode" PartnerClaimType="otp" Required="true" />
+          </OutputClaims>
+          <ValidationTechnicalProfiles>
+            <ValidationTechnicalProfile ReferenceId="AzureActiveDirectoryEmailVerification" />
+          </ValidationTechnicalProfiles>
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="AzureActiveDirectoryEmailVerification">
+          <DisplayName>Email Verification</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.EmailProvider" />
+          <Metadata>
+            <Item Key="Operation">SendCode</Item>
+            <Item Key="ContentDefinitionReferenceId">api.emailverification</Item>
+          </Metadata>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="email" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="email" />
+          </OutputClaims>
+          <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+  </RelyingParty>
+</TrustFrameworkPolicy>
