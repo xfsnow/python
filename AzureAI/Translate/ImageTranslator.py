@@ -2,7 +2,7 @@ import datetime
 import logging
 import requests
 import time
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 import uuid
 import os
 
@@ -14,6 +14,7 @@ import os
 class ImageTranslator:
     def __init__(self):
         self.root_path = os.path.dirname(os.path.abspath(__file__))
+        self.term_set = None
 
         # Azure OCR API 接口，形如  https://contoso.cognitiveservices.azure.com/vision/v3.2/read/analyze
         self.ocr_endpoint = os.getenv("AZURE_OCR_ENDPOINT")
@@ -33,7 +34,7 @@ class ImageTranslator:
         logging.basicConfig(level=logging.DEBUG)
         logger = logging.getLogger(class_name)
         handler = logging.FileHandler(
-            filename=f'{self.root_path}/{class_name}_' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + '.log',
+            filename=f'{self.root_path}/{class_name}_' + self.timestamp() + '.log',
             encoding='utf-8'
         )
         handler.setLevel(logging.DEBUG)
@@ -41,6 +42,11 @@ class ImageTranslator:
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         return logger
+
+    def timestamp(self):
+        # 获取当前时间戳
+        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        return timestamp
 
     def ocr_image(self, image_path):
         # Read the image file
@@ -80,7 +86,6 @@ class ImageTranslator:
                     "text": line["text"],
                     "bounding_box": line["boundingBox"]
                 })
-
         return text_data
 
     # 单行文字单语种快速翻译
@@ -111,68 +116,58 @@ class ImageTranslator:
         translations = response.json()
         return translations
 
-    def draw_translated_text(self, image_path, text_data):
-        # Open the image
-        image = Image.open(image_path)
-        draw = ImageDraw.Draw(image)
-
-        # 加载一个中文字体，以便支持中文字符
-        font = ImageFont.truetype("RoyalCheese.ttf", size=20)
-
-        # Draw each translated text at the original position
-        for item in text_data:
-            text = item["translated_text"]
-            # 如果 text 是空字符串、纯英文或数字，则跳过不画
-            if all(c.isascii() for c in text) or text == "":
-                continue
-            bounding_box = item["bounding_box"]
-            draw.text((bounding_box[0], bounding_box[1]), text, font=font, fill=(0, 0, 0))
-
-        # 把翻译后的图片保存为 jpg 格式，调试期间文件名以时间戳命名
-        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        image.save(f"translated_image_{timestamp}.jpg")
-
-    def make_html(self,image_path, text_data):
-        # 生成 HTML 文件，先把原画放在背景上，用 CSS 绝对定位
-        # 然后把翻译结果画在上面
+    def make_html(self, image_path, text_data):
+        timestamp = self.timestamp()
+        image_file = os.path.basename(image_path)
+        # 先复制一份原图用于擦除
+        image = Image.open(image_path).convert("RGB")
+        # draw = ImageDraw.Draw(image)
+        # erased_img_name = f"{self.root_path}/{image_file}_erased_{timestamp}.jpg"
+        # 生成 HTML 文件，底层图片用擦除后的图片
         html_content = '''<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 <meta charset="utf-8" />
 <link href='translate.css' rel='stylesheet' type='text/css'/>
-<title>'''+image_path+'''</title>
+<title>''' + image_file + '''</title>
 </head>
 <body>'''
-        html_content += f'<img src="{image_path}" style="position:absolute; top:0; left:0;">'
+        html_content += f'<img src="{image_file}" style="position:absolute; top:0; left:0;">'
+        # 合并循环：只对需要显示中文的区域填色并生成div
         for item in text_data:
+            text_eng = item["text"]
             text = item["translated_text"]
-            # 如果 text 是空字符串、纯英文或数字，则跳过不画。但是包含“DailyDoseOfDS.com”的不跳过，而是把内容替换成“www.snowpeak.org”
-            if text == "join.DailyDoseOfDS.com":
-                text = "www.snowpeak.org"
-            elif all(c.isascii() for c in text) or text == "鲁":
+            show_text = None
+            if "doseofds.com" in text.lower():
+                show_text = "www.snowpeak.org"
+            elif text.isascii() or text == "鲁" or self.is_term(text_eng):
                 continue
+            else:
+                show_text = text
             bounding_box = item["bounding_box"]
-            # Azure AI Vision 返回的 bounding box（边界框）通常是一个包含 8 个数字的数组，用于描述图像中检测到的对象的四个角点坐标。它的格式如下：[x1, y1, x2, y2, x3, y3, x4, y4]
-            # 这种格式支持 任意四边形，可以更准确地表示倾斜或旋转的对象，尤其适用于文档分析、OCR（光学字符识别）等场景。
-            x_coords = bounding_box[0::2]  # 提取 x 坐标 [x1, x2, x3, x4]
-            y_coords = bounding_box[1::2]  # 提取 y 坐标 [y1, y2, y3, y4]
-            left = min(x_coords)  # 左边界
-            top = min(y_coords)  # 上边界
-            width = max(x_coords) - left  # 宽度
-            height = max(y_coords) - top  # 高度
-            fontSize=''
+            x_coords = bounding_box[0::2]
+            y_coords = bounding_box[1::2]
+            left = min(x_coords)
+            top = min(y_coords)
+            right = max(x_coords)
+            bottom = max(y_coords)
+            width = right - left
+            height = bottom - top
+            # 取左上角像素做背景色
+            original_color = image.getpixel((int(left), int(top)))
+            # 把背景色转换成CSS颜色格式 background-color: rgba(255, 255, 255, 1);
+            background_color = f'rgba({original_color[0]}, {original_color[1]}, {original_color[2]}, 1)'
+            # 字号
+            fontSize = f'font-size:{height}px;'
             if width > 400:
-                # 根据文本框宽度和文字字数计算字号大小，如果框宽，但字少，则加大字号
-                font_size = max(12, int(width / (len(text))))  # 字号大小
-                fontSize=f'font-size:{font_size}px;'
-
-            # 使用绝对定位将文本放置在正确的位置
-            html_content += f'<div style="left:{left}px; top:{top}px; width:{width}px; height:{height}px; {fontSize}">{text}</div>'
+                font_size = max(12, int(width / (len(show_text))))
+                fontSize = f'font-size:{font_size}px;'
+            # 生成div
+            html_content += f'<div style="left:{left}px; top:{top}px; width:{width}px; height:{height}px; background-color: {background_color}; {fontSize}">{show_text}</div>\n'
         html_content += "</body></html>"
 
         # 保存 HTML 文件
-        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        with open(f"{self.root_path}/trans_{timestamp}.html", "w", encoding="utf-8") as f:
+        with open(f"{self.root_path}/{image_file}_{timestamp}.html", "w", encoding="utf-8") as f:
             f.write(html_content)
 
     def process_image(self, image_path):
@@ -187,34 +182,27 @@ class ImageTranslator:
         # 把翻译结果放回到原来的位置
         for item, translation in zip(text_data, translations):
             item["translated_text"] = translation["translations"][0]["text"]
-        # self.log.debug(text_data)
-        # 3: 把翻译结果画到原图上
-        # self.draw_translated_text(image_path, text_data)
         self.make_html(image_path, text_data)
 
+    def is_term(self, text):
+        # 首次调用时读取术语表并缓存
+        if self.term_set is None:
+            self.term_set = set()
+            with open(f"{self.root_path}/terminology.csv", "r", encoding="utf-8") as file:
+                for line in file:
+                    term = line.strip().split(",")[0]
+                    self.term_set.add(term)
+        return text in self.term_set
+
+
 if __name__ == "__main__":
-#     input = '''Thank you for taking the time to submit your application for Account Technology Strategist (Job number: 1823303)! We’re glad you value your career at Microsoft and we're here to help you find your next great fit as you continue your journey with us.
-
-# What to expect in the internal hiring process
-# To learn more about our hiring process, please visit the Careers Site and navigate to 'How we hire' in the top navigation menu.
-
-# As your application progresses through the process, updates can be viewed through your Action Center. If you see the job moved to an archived state, that means the position is either no longer open, you withdrew from consideration, or you were not selected for the role.
-
-# How’s your profile?
-# A key part of the review process is evaluating your profile in relation to the job requirements, so please make sure your profile is accurate and extensive – it’s our first step in getting to know you. You can build your profile any way you’d like – you can import it from LinkedIn, manually update it, or import/attach a resume. The most important thing is that your profile tells your story!
-
-# Key points to remember
-# •	If this role change results in a different level, business group, profession, discipline, or location than that of your current role, there may be adjustments to your compensation. Watch this short 'Understanding Compensation' video series to learn more.
-# •	Learn more about our internal movement philosophy such as manager notification, transfer eligibility, and transition timelines.
-# •	Informationals are not part of the hiring process. Rather, they are a valuable networking tool and key element of career planning to help you proactively identify what your next role could be when you are ready to take that next step. Learn more about informational guidance for employees.
-# We encourage you to check back frequently and continue to look for opportunities that match your interests, as new jobs are being posted regularly.
-# '''
-#     output = translator.translate(input, target_language="zh-Hans")
-#     print(output)
-
-    # Create an instance of ImageTranslator
-    # translator = ImageTranslator(ocr_endpoint, ocr_key, translator_endpoint, translator_key, translator_region)
     translator = ImageTranslator()
-    # Provide the path to the image file
-    image_path = translator.root_path + "/local_mcp.jpg"
+    # OCR 不支持gif格式的图片
+    image_file ='expert.jpg'
+    # image_file ='local_mcp.jpg'
+    # image_file ='03.jpg'
+    image_path = translator.root_path + "/" + image_file
     translator.process_image(image_path)
+    # text = 'lamaIndex'
+    # is_term = translator.is_term(text)
+    # print(f"Is '{text}' a term? {is_term}")
