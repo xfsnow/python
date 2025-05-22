@@ -4,4 +4,5 @@ div {
     /* background-color: rgba(255, 255, 255, 1); */
     position:absolute;
 /*    border: solid 1px rgba(0, 0, 0, 0.4);*/
+    text-align:center;
 }

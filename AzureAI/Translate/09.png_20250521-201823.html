@@ -1,0 +1,97 @@
+<html lang="zh-cn"><head>
+<meta charset="utf-8">
+<link href="translate.css" rel="stylesheet" type="text/css">
+<title>09.png</title>
+</head>
+<body><img src="09.png" style="position:absolute; top:0; left:0;"><div style="left:20px; top:5px; width:468px; height:61px;font-size:59px; background-color: rgba(255, 250, 254, 1);">LLM中的KV缓存</div>
+<div style="left:623px; top:24px; width:253px; height:28px;font-size:28px; background-color: rgba(254, 254, 254, 1);">www.snowpeak.org</div>
+<div style="left:32px; top:86px; width:40px; height:17px;font-size:17px; background-color: rgba(243, 248, 252, 1);">输入</div>
+<div style="left:281px; top:86px; width:94px; height:16px;font-size:16px; background-color: rgba(243, 247, 250, 1);">隐藏状态</div>
+<div style="left:433px; top:87px; width:72px; height:16px;font-size:16px; background-color: rgba(244, 248, 251, 1);">投影</div>
+<div style="left:543px; top:87px; width:150px; height:17px;font-size:17px; background-color: rgba(246, 247, 251, 1);">词汇表上的分对数</div>
+<div style="left:739px; top:143px; width:95px; height:22px;font-size:22px; background-color: rgba(243, 248, 252, 1);">洞察 1</div>
+<div style="left:46px; top:165px; width:15px; height:15px;font-size:15px; background-color: rgba(214, 238, 248, 1);">是</div>
+<div style="left:697px; top:168px; width:180px; height:23px;font-size:22px; background-color: rgba(242, 246, 249, 1);">仅网络</div>
+<div style="left:714px; top:193px; width:146px; height:21px;font-size:21px; background-color: rgba(244, 248, 251, 1);">需要最后的</div>
+<div style="left:36px; top:209px; width:33px; height:14px;font-size:14px; background-color: rgba(213, 237, 247, 1);">使用</div>
+<div style="left:173px; top:171px; width:30px; height:50px;font-size:20px; background-color: rgba(240, 244, 247, 1);">层</div>
+<div style="left:722px; top:218px; width:128px; height:20px;font-size:20px; background-color: rgba(240, 244, 247, 1);">隐藏状态</div>
+<div style="left:716px; top:243px; width:141px; height:24px;font-size:22px; background-color: rgba(242, 247, 251, 1);">要预测</div>
+<div style="left:41px; top:257px; width:24px; height:13px;font-size:13px; background-color: rgba(217, 237, 248, 1);">为</div>
+<div style="left:729px; top:268px; width:113px; height:22px;font-size:22px; background-color: rgba(243, 246, 251, 1);">下一个令牌。</div>
+<div style="left:349px; top:312px; width:94px; height:22px;font-size:20px; background-color: rgba(191, 216, 213, 1);">聚类</div>
+
+<div style="left:157px; top:367px; width:40px; height:14px;font-size:14px; background-color: rgba(243, 248, 252, 1);">查询</div>
+
+
+<div style="left:32px; top:385px; width:40px; height:18px;font-size:16px; background-color: rgba(243, 248, 254, 1);">输入</div>
+
+
+<div style="left:721px; top:431px; width:100px; height:22px;font-size:22px; background-color: rgba(243, 248, 252, 1);">洞察 2</div>
+<div style="left:48px; top:466px; width:14px; height:15px;font-size:15px; background-color: rgba(217, 237, 244, 1);">是</div>
+<div style="left:670px; top:455px; width:200px; height:180px;font-size:21px; background-color: rgba(243, 248, 252, 1);">最后一个隐藏状态仅取决于最后一个令牌的查询向量以及所有键向量和值向量</div>
+<div style="left:156px; top:472px; width:35px; height:17px;font-size:17px; background-color: rgba(242, 250, 252, 1);">键</div>
+
+
+<div style="left:515px; top:496px; width:90px; height:15px;font-size:15px; background-color: rgba(242, 246, 249, 1);">Softmax 之后</div>
+
+<div style="left:39px; top:509px; width:34px; height:15px;font-size:15px; background-color: rgba(216, 236, 247, 1);">使用</div>
+<div style="left:515px; top:517px; width:92px; height:17px;font-size:17px; background-color: rgba(242, 246, 249, 1);">带值的乘积</div>
+
+
+<div style="left:44px; top:556px; width:22px; height:13px;font-size:13px; background-color: rgba(217, 237, 246, 1);">为</div>
+
+
+
+
+
+
+
+
+
+<div style="left:35px; top:678px; width:90px; height:15px;font-size:12px; background-color: rgba(246, 247, 251, 1);">对于第5个token</div>
+<div style="left:142px; top:678px; width:90px; height:15px;font-size:12px; background-color: rgba(240, 250, 252, 1);">对于第6个token</div>
+<div style="left:253px; top:677px; width:90px; height:16px;font-size:12px; background-color: rgba(241, 249, 251, 1);">对于第7个token</div>
+<div style="left:370px; top:677px; width:90px; height:15px;font-size:12px; background-color: rgba(243, 248, 252, 1);">对于第5个token</div>
+<div style="left:476px; top:677px; width:90px; height:15px;font-size:12px; background-color: rgba(243, 248, 252, 1);">对于第6个token</div>
+<div style="left:588px; top:677px; width:90px; height:16px;font-size:12px; background-color: rgba(242, 247, 251, 1);">对于第7个token</div>
+
+
+
+
+<div style="left:680px; top:695px; width:205px; height:175px;font-size:24px; background-color: rgba(243, 248, 252, 1);">在之前的令牌中使用的键向量和值向量不会改变。缓存它们以避免重新计算。</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="left:253px; top:842px; width:77px; height:28px;font-size:18px; background-color: rgba(244, 248, 251, 1);">实时生成</div>
+<div style="left:389px; top:840px; width:73px; height:14px;font-size:14px; background-color: rgba(243, 248, 254, 1);">缓存自</div>
+
+
+<div style="left:370px; top:856px; width:105px; height:13px;font-size:14px; background-color: rgba(243, 248, 252, 1);">上一个迭代</div>
+
+</body></html>

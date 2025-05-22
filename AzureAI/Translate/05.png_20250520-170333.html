@@ -1,0 +1,80 @@
+<html lang="zh-cn"><head>
+<meta charset="utf-8">
+<link href="translate.css" rel="stylesheet" type="text/css">
+<title>05.png</title>
+</head>
+<body><img src="05.png" style="position:absolute; top:0; left:0;"><div style="left:30px; top:4px; width:510px; height:56px; background-color: rgba(245, 250, 253, 1); font-size:40px;">RAG 的 5 种分块策略</div>
+<div style="left:637px; top:22px; width:217px; height:25px; background-color: rgba(247, 253, 251, 1); font-size:25px;">www.snowpeak.org</div>
+
+<div style="left:23px; top:127px; width:163px; height:32px; background-color: rgba(191, 212, 233, 1); font-size:30px;">1）固定尺寸</div>
+<div style="left:512px; top:118px; width:54px; height:19px; background-color: rgba(241, 246, 250, 1); font-size:19px;">重叠</div>
+<div style="left:46px; top:164px; width:118px; height:32px; background-color: rgba(195, 212, 238, 1); font-size:29px;">分块</div>
+<div style="left:329px; top:158px; width:83px; height:22px; background-color: rgba(238, 243, 249, 1); font-size:22px;">块1</div>
+<div style="left:668px; top:158px; width:81px; height:23px; background-color: rgba(238, 243, 249, 1); font-size:22px;">块2</div>
+
+
+
+
+<div style="left:301px; top:271px; width:64px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">片段</div>
+<div style="left:298px; top:291px; width:71px; height:16px; background-color: rgba(245, 236, 237, 1); font-size:16px;">文档</div>
+<div style="left:497px; top:275px; width:133px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">初始第一个块</div>
+<div style="left:706px; top:281px; width:121px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">不断添加新的</div>
+<div style="left:290px; top:318px; width:95px; height:50px; background-color: rgba(244, 238, 238, 1); font-size:15px;">（句子或段落）</div>
+<div style="left:686px; top:302px; width:158px; height:19px; background-color: rgba(244, 238, 238, 1); font-size:18px;">片段直到余弦</div>
+<div style="left:31px; top:332px; width:156px; height:33px; background-color: rgba(242, 188, 186, 1); font-size:30px;">2）语义</div>
+<div style="left:666px; top:321px; width:198px; height:19px; background-color: rgba(243, 237, 237, 1); font-size:19px;">相似度急剧下降</div>
+
+<div style="left:50px; top:368px; width:120px; height:33px; background-color: rgba(240, 189, 188, 1); font-size:31px;">分块</div>
+<div style="left:807px; top:413px; width:40px; height:16px; background-color: rgba(244, 238, 238, 1); font-size:16px;">最后</div>
+<div style="left:400px; top:444px; width:91px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">最终块</div>
+<div style="left:808px; top:434px; width:38px; height:17px; background-color: rgba(245, 239, 239, 1); font-size:17px;">第一</div>
+<div style="left:532px; top:457px; width:145px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">初始第二个块</div>
+<div style="left:805px; top:457px; width:44px; height:16px; background-color: rgba(245, 239, 239, 1); font-size:16px;">块</div>
+<div style="left:323px; top:510px; width:63px; height:18px; background-color: rgba(236, 244, 247, 1); font-size:16px;">片段</div>
+<div style="left:528px; top:509px; width:58px; height:17px; background-color: rgba(238, 243, 249, 1); font-size:16px;">选择一个</div>
+<div style="left:319px; top:529px; width:70px; height:16px; background-color: rgba(236, 244, 247, 1); font-size:16px;">文档</div>
+<div style="left:524px; top:530px; width:65px; height:18px; background-color: rgba(237, 242, 248, 1); font-size:14px;">个片段</div>
+<div style="left:228px; top:547px; width:46px; height:12px; background-color: rgba(185, 241, 196, 1); font-size:12px;">公文</div>
+<div style="left:27px; top:577px; width:159px; height:32px; background-color: rgba(196, 212, 235, 1); font-size:30px;">3） 递归</div>
+<div style="left:280px; top:563px; width:130px; height:17px; background-color: rgba(237, 245, 248, 1); font-size:17px;">（段落或</div>
+<div style="left:291px; top:584px; width:130px; height:18px; background-color: rgba(236, 244, 247, 1); font-size:18px;">专题部分）</div>
+<div style="left:713px; top:594px; width:122px; height:18px; background-color: rgba(244, 244, 244, 1); font-size:18px;">尺寸&gt;块大小</div>
+<div style="left:47px; top:613px; width:118px; height:33px; background-color: rgba(195, 211, 234, 1); font-size:31px;">分块</div>
+<div style="left:751px; top:616px; width:50px; height:16px; background-color: rgba(244, 244, 244, 1); font-size:16px;">限制？</div>
+<div style="left:590px; top:631px; width:32px; height:20px; background-color: rgba(238, 243, 249, 1); font-size:20px;">不</div>
+<div style="left:766px; top:663px; width:58px; height:20px; background-color: rgba(239, 242, 247, 1); font-size:20px;">是</div>
+<div style="left:617px; top:698px; width:94px; height:19px; background-color: rgba(238, 243, 249, 1); font-size:19px;">进一步拆分</div>
+<div style="left:623px; top:719px; width:85px; height:21px; background-color: rgba(238, 243, 249, 1); font-size:18px;">递 归</div>
+<div style="left:261px; top:767px; width:66px; height:14px; background-color: rgba(247, 237, 236, 1); font-size:14px;">文档</div>
+<div style="left:31px; top:796px; width:164px; height:32px; background-color: rgba(239, 188, 184, 1); font-size:29px;">4）文件</div>
+<div style="left:263px; top:798px; width:36px; height:15px; background-color: rgba(169, 215, 251, 1); font-size:16px;">标题</div>
+<div style="left:387px; top:789px; width:87px; height:19px; background-color: rgba(247, 237, 236, 1); font-size:19px;">片段使用</div>
+<div style="left:522px; top:789px; width:56px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">数据块 1</div>
+<div style="left:629px; top:789px; width:60px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">区块 2</div>
+<div style="left:760px; top:789px; width:60px; height:17px; background-color: rgba(246, 237, 238, 1); font-size:17px;">区块 3</div>
+<div style="left:384px; top:808px; width:94px; height:18px; background-color: rgba(244, 238, 238, 1); font-size:18px;">固有的</div>
+<div style="left:529px; top:816px; width:40px; height:15px; background-color: rgba(166, 216, 253, 1); font-size:15px;">标题</div>
+<div style="left:608px; top:817px; width:98px; height:16px; background-color: rgba(252, 235, 179, 1); font-size:16px;">介绍</div>
+<div style="left:45px; top:833px; width:131px; height:25px; background-color: rgba(241, 190, 186, 1); font-size:25px;">基于</div>
+<div style="left:746px; top:816px; width:82px; height:17px; background-color: rgba(253, 203, 202, 1); font-size:17px;">部分 #1</div>
+<div style="left:250px; top:832px; width:88px; height:15px; background-color: rgba(252, 235, 179, 1); font-size:16px;">介绍</div>
+<div style="left:392px; top:829px; width:75px; height:17px; background-color: rgba(244, 238, 238, 1); font-size:17px;">结构</div>
+<div style="left:70px; top:867px; width:81px; height:25px; background-color: rgba(242, 188, 186, 1); font-size:25px;">结构</div>
+<div style="left:256px; top:865px; width:75px; height:15px; background-color: rgba(249, 199, 192, 1); font-size:16px;">部分 #1</div>
+<div style="left:575px; top:860px; width:57px; height:17px; background-color: rgba(244, 238, 238, 1); font-size:17px;">区块 4</div>
+<div style="left:699px; top:859px; width:57px; height:19px; background-color: rgba(246, 237, 238, 1); font-size:19px;">区块 5</div>
+<div style="left:52px; top:902px; width:121px; height:32px; background-color: rgba(243, 187, 186, 1); font-size:30px;">分块</div>
+<div style="left:256px; top:897px; width:74px; height:16px; background-color: rgba(234, 189, 246, 1); font-size:16px;">部分 #2</div>
+<div style="left:560px; top:891px; width:82px; height:17px; background-color: rgba(242, 191, 247, 1); font-size:17px;">部分 #2</div>
+<div style="left:694px; top:891px; width:77px; height:17px; background-color: rgba(233, 222, 218, 1); font-size:17px;">结论</div>
+<div style="left:259px; top:931px; width:70px; height:15px; background-color: rgba(235, 221, 220, 1); font-size:16px;">结论</div>
+<div style="left:705px; top:932px; width:163px; height:21px; background-color: rgba(244, 238, 238, 1); font-size:18px;">*与递归合并</div>
+<div style="left:700px; top:954px; width:170px; height:20px; background-color: rgba(244, 238, 238, 1); font-size:19px;">分块（如果需要）</div>
+<div style="left:357px; top:1004px; width:58px; height:16px; background-color: rgba(238, 243, 249, 1); font-size:16px;">输入到</div>
+<div style="left:538px; top:1002px; width:110px; height:21px; background-color: rgba(238, 243, 249, 1); font-size:17px;">LLM 生成</div>
+<div style="left:18px; top:1020px; width:182px; height:33px; background-color: rgba(195, 211, 236, 1); font-size:31px;">5）基于LLM</div>
+<div style="left:563px; top:1024px; width:55px; height:16px; background-color: rgba(236, 244, 246, 1); font-size:16px;">块</div>
+<div style="left:257px; top:1046px; width:46px; height:10px; background-color: rgba(182, 241, 195, 1); font-size:10px;">公文</div>
+<div style="left:47px; top:1058px; width:119px; height:32px; background-color: rgba(195, 211, 236, 1); font-size:30px;">分块</div>
+<div style="left:711px; top:1101px; width:92px; height:18px; background-color: rgba(238, 243, 249, 1); font-size:18px;">最终块</div>
+</body></html>

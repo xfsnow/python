@@ -159,11 +159,11 @@ class ImageTranslator:
             background_color = f'rgba({original_color[0]}, {original_color[1]}, {original_color[2]}, 1)'
             # 字号
             fontSize = f'font-size:{height}px;'
-            if width > 400:
-                font_size = max(12, int(width / (len(show_text))))
-                fontSize = f'font-size:{font_size}px;'
+            # if width > 400:
+            #     font_size = max(12, int(width / (len(show_text))))
+            #     fontSize = f'font-size:{font_size}px;'
             # 生成div
-            html_content += f'<div style="left:{left}px; top:{top}px; width:{width}px; height:{height}px; background-color: {background_color}; {fontSize}">{show_text}</div>\n'
+            html_content += f'<div style="left:{left}px; top:{top}px; width:{width}px; height:{height}px;{fontSize} background-color: {background_color};">{show_text}</div>\n'
         html_content += "</body></html>"
 
         # 保存 HTML 文件
@@ -197,12 +197,18 @@ class ImageTranslator:
 
 if __name__ == "__main__":
     translator = ImageTranslator()
-    # OCR 不支持gif格式的图片
-    image_file ='expert.jpg'
-    # image_file ='local_mcp.jpg'
-    # image_file ='03.jpg'
-    image_path = translator.root_path + "/" + image_file
-    translator.process_image(image_path)
     # text = 'lamaIndex'
     # is_term = translator.is_term(text)
     # print(f"Is '{text}' a term? {is_term}")
+
+    # OCR 不支持gif格式的图片
+    # 循环 01.png 到 09.png 处理
+    for i in range(1, 10):
+        image_file = f"0{i}.png"
+        image_path = translator.root_path + "/" + image_file
+        translator.process_image(image_path)
+        # 休息 5秒，避免触发 Azure 的速率限制
+        # time.sleep(5)
+    # image_file ='03.jpg'
+    # image_path = translator.root_path + "/" + image_file
+    # translator.process_image(image_path)

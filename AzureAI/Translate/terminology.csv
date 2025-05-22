@@ -1,4 +1,5 @@
 Amazon Web Services
+API
 Artificial Intelligence
 Attention Mechanism
 Autoencoder
@@ -26,6 +27,7 @@ GPT-2
 GPT-3
 GPT-4
 Hugging Face
+HyDe
 K-Nearest Neighbors
 Keras
 LangChain
@@ -36,6 +38,7 @@ Llama2
 LlamaIndex
 LLM
 Long Short-Term Memory
+LoRA
 Machine Learning
 Meta AI
 Microsoft Azure
@@ -63,6 +66,7 @@ Support Vector Machine
 Supervised Learning
 TensorFlow
 T5
+Token
 Tokenization
 Transfer Learning
 Transformer
